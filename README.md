@@ -1,6 +1,44 @@
 # blockchain-time
 
 > Resources for utilizing time on-chain
+> 
+
+## Background
+
+#### time2posix
+IEEE Std 1003.1-1988 (``POSIX.1``) legislates that a time_t value of 536457599 shall correspond to "Wed Dec 31 23:59:59 GMT 1986." 
+This effectively implies that POSIX time_t's cannot include leap seconds and, therefore, that the system time must be adjusted as each leap occurs.
+
+#### strftime()
+The C and POSIX standards define for the strftime() function and the date utility a notation for defining date and time representations.
+Here are some examples, of how they can be used to produce ISO 8601 output:
+
+```bash
+format string 	output
+%Y-%m-%d 	      1999-12-31
+%Y-%j 	        1999-365
+%G-W%V-%u      	1999-W52-5
+%H:%M:%S      	23:59:59
+```
+
+#### Daylight Savings Changes 
+
+| **From**                   | **To**                  | **On**                     | **At**                      | **Action**  | ****                       |
+|----------------------------|-------------------------|----------------------------|-----------------------------|-------------|----------------------------|
+| 1918                       | 1919                    | last Sunday                | in March                    | 02:00 local | go to daylight saving time |
+| in October                 | return to standard time |                            |                             |             |                            |
+| 1942 only                  | February 9th            | go to “war time”           |                             |             |                            |
+| 1945 only                  | August 14th             | 23:00 UT                   | rename “war time” to “peace |             |                            |
+| time;” clocks don’t change |                         |                            |                             |             |                            |
+| September 30th             | 02:00 local             | return to standard time    |                             |             |                            |
+| 1967                       | 2006                    | last Sunday                | in October                  |             |                            |
+| 1973                       | in April                | go to daylight saving time |                             |             |                            |
+| 1974 only                  | January 6th             |                            |                             |             |                            |
+| 1975 only                  | February 23rd           |                            |                             |             |                            |
+| 1976                       | 1986                    | last Sunday                | in April                    |             |                            |
+| 1987                       | 2006                    | first Sunday               |                             |             |                            |
+| 2007                       | present                 | second Sunday in March     |                             |             |                            |
+| first Sunday in November   | return to standard time |                            |                             |             |                            |
 
 ## CalSystems
 
