@@ -1,4 +1,4 @@
-### parity / open ethereum 
+### parity / open ethereum
 
 [source, parity](https://github.com/openethereum/parity-ethereum/blob/73db5dda8c0109bb6bc1392624875078f973be14/ethcore/src/verification/verification.rs#L296-L307)
 
@@ -18,4 +18,4 @@
 			return Err(From::from(BlockError::TemporarilyInvalid(OutOfBounds { max: Some(max_time), min: None, found: timestamp })))
 		}Igor Artamonov, 4 years ago: • invalidate blocks from future
 	}
-  ```
+```

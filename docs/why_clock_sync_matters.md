@@ -1,44 +1,46 @@
 ---
 tags: Time, Ethereum2.0
 ---
+
 # Why clock sync matters in Ethereum 2.0
 
-> source: [https://hackmd.io/X-uvqwe8TkmR-CJqMdfn6Q](https://hackmd.io/X-uvqwe8TkmR-CJqMdfn6Q)
+> source:
+> [https://hackmd.io/X-uvqwe8TkmR-CJqMdfn6Q](https://hackmd.io/X-uvqwe8TkmR-CJqMdfn6Q)
 
 **Abstract**
 
 Beacon chain protocol critically depends on clock synchronization. If
-validators or nodes clocks discrepancy becomes too much, then [liveness
-properties](https://en.wikipedia.org/wiki/Liveness) can become violated,
-i.e. the protocol participants won't be able to make progress or its
-probability becomes too low. In theory, [safety
-properties](https://en.wikipedia.org/wiki/Safety_property) can become
-violated too, since validators which failed to participate due to clock
-discrepancies are penalized. If an adversary manages to attack otherwise
-honest validator clocks then it can seize voting power over time.
+validators or nodes clocks discrepancy becomes too much, then
+[liveness properties](https://en.wikipedia.org/wiki/Liveness) can become
+violated, i.e. the protocol participants won't be able to make progress
+or its probability becomes too low. In theory,
+[safety properties](https://en.wikipedia.org/wiki/Safety_property) can
+become violated too, since validators which failed to participate due to
+clock discrepancies are penalized. If an adversary manages to attack
+otherwise honest validator clocks then it can seize voting power over
+time.
 
 ## Safety, liveness and robustness
 
 [Casper FFG](https://arxiv.org/abs/1710.09437) is based on epoch
 justification and finalization. An epoch justification requires 2/3 of
 total voting power, so if an adversary gains control on 2/3 then it will
-reign over a Casper FFG based system.
-If an adversary controls less than 2/3 of voting power, but it controls
-1/3, it might be able to hinder protocol progress, by voting differently
-than other validators, thus breaking liveness property.
-However, even if an adversary controls less than 1/3 of voting power,
-there are other sources of failures in real network. E.g. there are
-network delays, clock disparities, hardware or link failures. All these
-result in additional faults, which combined with an adversarial behavior
-of some nodes can lead to situations when epochs cannot get justified
-for some periods of time.
-So, from a practical point of view, while protocol can successfully
-withstand safety and liveness attacks, it can do that with degrade
-performance, which is a real problem for real users of the protocol.
-While, in theoretical sense, liveness property cannot be violated in a
-finite execution of a protocol, a practical liveness as perceived by
-real users *can* be violated.
-An illustration of the problem can be found in Vitalik Buterin's
+reign over a Casper FFG based system. If an adversary controls less than
+2/3 of voting power, but it controls 1/3, it might be able to hinder
+protocol progress, by voting differently than other validators, thus
+breaking liveness property. However, even if an adversary controls less
+than 1/3 of voting power, there are other sources of failures in real
+network. E.g. there are network delays, clock disparities, hardware or
+link failures. All these result in additional faults, which combined
+with an adversarial behavior of some nodes can lead to situations when
+epochs cannot get justified for some periods of time. So, from a
+practical point of view, while protocol can successfully withstand
+safety and liveness attacks, it can do that with degrade performance,
+which is a real problem for real users of the protocol. While, in
+theoretical sense, liveness property cannot be violated in a finite
+execution of a protocol, a practical liveness as perceived by real users
+_can_ be violated. An illustration of the problem can be found in
+Vitalik Buterin's
 [post](https://ethresear.ch/t/network-adjusted-timestamps/4187), which
 also outlines potential solution.
 
@@ -49,11 +51,12 @@ performance degradation.
 ## Clock disparity consequences
 
 The focus of the document is faults - and attacks - related to lack of
-clock synchronization.
-Beacon chain specs require either delay or discard messages (blocks or
-attestations), which arrived beyond admissible time bounds. So if a
-validator is severely out of time, then it's a form of failure. A late
-message arrival can be a consequence of different problems:
+clock synchronization. Beacon chain specs require either delay or
+discard messages (blocks or attestations), which arrived beyond
+admissible time bounds. So if a validator is severely out of time, then
+it's a form of failure. A late message arrival can be a consequence of
+different problems:
+
 - slow or faulty links
 - clock skew or drift
 - slow or faulty validators
@@ -83,7 +86,7 @@ voting power dominance over time, leading to safety property violation.
 While it's unlikely in practice (because of counter-measures undertaken
 by administrators), in theory it's possible that time-level attacks can
 be used to violate safety properties of the beacon chain protocol (while
-Caper FFG's *accountable safety* is not viloated).
+Caper FFG's _accountable safety_ is not viloated).
 
 ### Problem persistence
 
@@ -91,10 +94,9 @@ One serious problem is that clock disparity among nodes will grow with
 time, e.g. if it reaches some dangerous level, it will likely persist
 until corrected. That is caused by the fact that individual clock rates
 are not stable and drift because of various reasons, including
-temperature variations, aging, radiation, etc.
-This is in contrast to message transmission delays, which has similar
-impact, but periods of higher than usual network delays do not typically
-last for a long.
+temperature variations, aging, radiation, etc. This is in contrast to
+message transmission delays, which has similar impact, but periods of
+higher than usual network delays do not typically last for a long.
 However the persistence of clock disparity simplifies problem detection.
 Thus, a reliable clock synchronization mechanism is a must-level
 requirement.
@@ -118,32 +120,30 @@ when they should attest current head. However, they still can attest the
 parent, so if the late proposed block references the parent as well,
 it's not a problem, since the newly proposed block is the only child of
 the parent block and will be chosen as a head block, when it has
-arrived.
-But if the block proposer is one slot late, then the next slot proposer
-won't receive the block at time, won't be able to choose it as head and
-will create its block based on some other block as parent. So, there
-will be a fork. While beacon chain protocol is able to tolerate forks,
-together with other problems it can lead to problems, so it's better to
-reduce such opportunities as much as possible.
+arrived. But if the block proposer is one slot late, then the next slot
+proposer won't receive the block at time, won't be able to choose it as
+head and will create its block based on some other block as parent. So,
+there will be a fork. While beacon chain protocol is able to tolerate
+forks, together with other problems it can lead to problems, so it's
+better to reduce such opportunities as much as possible.
 
 Being too fast also can lead to problems. If an attester votes too
 early, then it won't receive latest information which will be received
 by other nodes, so its view on beacon chain will be different, which may
 hinder consensus at some point. However, if there are no forks it
 shouldn't be a problem, since it still votes for the same chain. That's
-why it's worse situation when there are forks.
-If a block proposer is too fast (about a slot) it won't receive a block
-from the previous slot proposer, which means a fork happen.
+why it's worse situation when there are forks. If a block proposer is
+too fast (about a slot) it won't receive a block from the previous slot
+proposer, which means a fork happen.
 
 So, clock disparity about 1/3 of a slot affects normal message flow,
 though should not lead to big problems (unless there are other
-problems).
-Clock disparity around slot duration leads to forks, which is a
-prerequisite for other problems. Clock disparity around epoch duration
+problems). Clock disparity around slot duration leads to forks, which is
+a prerequisite for other problems. Clock disparity around epoch duration
 are very severe.
 
-However, a recent change to [p2p-interface
-spec](https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/p2p-interface.md#configuration)
+However, a recent change to
+[p2p-interface spec](https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/p2p-interface.md#configuration)
 assumes maximum clock disparity to be 500ms and prescribes to delay too
 early blocks (the similar behavior prescribed to attestation processing,
 but they can be included during a longer time, e.g. during 32 slots, so
@@ -180,21 +180,21 @@ administrators (unless the problem is addressed explicitly).
 
 ### NTP-level attacks
 
-NTP servers are known to be [misused and
-abused](https://en.wikipedia.org/wiki/NTP_server_misuse_and_abuse). NTP
-server bandwidth is a scare resource worldwide. As a consequence, NTP
-server access becomes more structured and administered.
+NTP servers are known to be
+[misused and abused](https://en.wikipedia.org/wiki/NTP_server_misuse_and_abuse).
+NTP server bandwidth is a scare resource worldwide. As a consequence,
+NTP server access becomes more structured and administered.
 
 One initiative is [NTP pool](https://www.pool.ntp.org/en/), which is a
-big cluster of community time servers and `the default "time server" for
-most of the major Linux distributions and many networked appliances`.
+big cluster of community time servers and
+`the default "time server" for most of the major Linux distributions and many networked appliances`.
 Therefore, it's likely that many (or even most) validator nodes will use
-the NTP pool as their time server.
-On the other side, joining the pool would not be a problem for an
-adversary
+the NTP pool as their time server. On the other side, joining the pool
+would not be a problem for an adversary
+
 > Because of the large number of users we are in need of more servers.
-If you have a server with a static IP address always available on the
-internet, please consider adding it to the system. 
+> If you have a server with a static IP address always available on the
+> internet, please consider adding it to the system.
 
 While NTP is able to tolerate certain faults, including "falsetickers",
 it's limited in the ability. I'm not an expert in NTP and the following
@@ -215,14 +215,15 @@ likely to be preferred.
 
 So, given 0.5 probability to choose a malicious server from the pool,
 the are three outcomes of choosing 4 of them:
+
 - honest time servers dominate, i.e. 3 or 4 of them, this is 1/16 + 4/16
-= 5/16 probability
+  = 5/16 probability
 - malicious time servers dominate, the same 5/16 probability
 - two honest against two malicious time servers, 6/16 probability. It's
-not clear who will win but it's a risky setup, since either two
-malicious server will look as more "synchronous" or they will affect
-average reading of the time server quorum (the exact NTP implementation
-behavior should be additionally investigated)
+  not clear who will win but it's a risky setup, since either two
+  malicious server will look as more "synchronous" or they will affect
+  average reading of the time server quorum (the exact NTP
+  implementation behavior should be additionally investigated)
 
 Overall, by "donating" around 4K time servers, an adversary has about
 1/2 chance to affect time on a node, which is configured to use NTP
@@ -242,8 +243,8 @@ tolerant clock sync protocol difficult/expensive.
 ## Mitigating time-level attacks
 
 The main purpose of the document is to describe the problem and to give
-foundation to the thesis *Why Clock Synchronization matters in Ethereum
-2.0*. So, I will only briefly discuss how the clock synchronization
+foundation to the thesis _Why Clock Synchronization matters in Ethereum
+2.0_. So, I will only briefly discuss how the clock synchronization
 problem can be solved. A more detailed solution is to be described in a
 separate document.
 
@@ -262,10 +263,9 @@ One can use NTP servers operated by government agencies, well known
 commercial or non profit organization. However, it means the presumably
 decentralized PoS architecture critically depends on relatively small
 list of time servers, so it becomes a kind of Proof-of-Authority in some
-sense.
-While it might be acceptable (the protocol relies on IP, DNS, etc
-anyway), there are risks associated with this.
-Servers can cease servicing or can participate in clock manipulation.
+sense. While it might be acceptable (the protocol relies on IP, DNS, etc
+anyway), there are risks associated with this. Servers can cease
+servicing or can participate in clock manipulation.
 
 So, a truly decentralized BFT system deserves more BF tolerant clock
 synchronization protocol. At least, such solutions should be proposed
@@ -276,15 +276,14 @@ and analyzed.
 As written before, Byzatine clock return different results, when read by
 different processes. A publicly available, but Byzantine NTP server
 (e.g., included in some public NTP server list) should service correctly
-normal users, else it will be easily identified as faulty.
-Thus such janus-faced server should be able to discriminate validator
-nodes from other clients in order to manipulate former.
-So, a simple intermediate server can conceal a validator node,
-especially if it uses two IP addresses (to service the validator node
-requests from an IP which is distinct from the IP used to query an NTP
-server).
-However, such a setup increases costs of being a validator, so it will
-be a problem to many low-steak validators.
+normal users, else it will be easily identified as faulty. Thus such
+janus-faced server should be able to discriminate validator nodes from
+other clients in order to manipulate former. So, a simple intermediate
+server can conceal a validator node, especially if it uses two IP
+addresses (to service the validator node requests from an IP which is
+distinct from the IP used to query an NTP server). However, such a setup
+increases costs of being a validator, so it will be a problem to many
+low-steak validators.
 
 ### GNSS or radio clocks
 
@@ -317,9 +316,9 @@ The NTP pool attack above illustrates one of the main problems of
 practical BFT solutions: one has to restrict participants of a BFT
 system by some means, else a Sybil-like attack is possible, i.e. an
 adversary can add many participants which will surpass safety limits
-(like a typical 'less than 1/3 of faulty participants' or so).
-NTP pool is an open (to join) system, which makes it a problem to rely
-on it in a BFT system.
+(like a typical 'less than 1/3 of faulty participants' or so). NTP pool
+is an open (to join) system, which makes it a problem to rely on it in a
+BFT system.
 
 A straightforward way to restrict participants is to require that (only)
 validators (can) participate in creating a BFT service. Vitalik Buterin
@@ -329,10 +328,10 @@ mentioned above.
 
 A number of BFT clock synchronization protocol exists, however, the cost
 of such protocols can be prohibitive, given the expected amount of
-Ethereum 2.0 validator/nodes (an order of thousand of nodes).
-As p2p architecture is used to connect the validator nodes, validators
-cannot reach each other directly, thus message delays are multiplied by
-some factor (an average/maximum number of hops), which limits clock
+Ethereum 2.0 validator/nodes (an order of thousand of nodes). As p2p
+architecture is used to connect the validator nodes, validators cannot
+reach each other directly, thus message delays are multiplied by some
+factor (an average/maximum number of hops), which limits clock
 synchronization accuracy, because network delay variability decreases
 the ability to measure clock offsets. However, an estimation of such
 delays based on special (asymmetric) optimization measures can be used
@@ -347,14 +346,13 @@ radical, actually it's a traditional approach to build reliable
 distributed systems, since logical clocks are much easier to implement,
 while implementing BFT clock synchronization with beacon chain level of
 requirements together with the expected scale of the system (thousands
-of nodes) can be quite challenging.
-However, cryptoeconomics still require that slot duration be of the
-prescribed amount (`SECONDS_PER_SLOT`, 12 seconds currently), because
-reward rate depends on slot/epoch rate. Thus clock synchronization with
-the world time is still required. However, clock disparity requirements
-are mild relative clock disparity required to align validator slots
-along the same time axis. Because, reward rate should be stable on a
-long scale.
+of nodes) can be quite challenging. However, cryptoeconomics still
+require that slot duration be of the prescribed amount
+(`SECONDS_PER_SLOT`, 12 seconds currently), because reward rate depends
+on slot/epoch rate. Thus clock synchronization with the world time is
+still required. However, clock disparity requirements are mild relative
+clock disparity required to align validator slots along the same time
+axis. Because, reward rate should be stable on a long scale.
 
 However, EVM or smart contracts may require higher quality of clock
 synchronization.

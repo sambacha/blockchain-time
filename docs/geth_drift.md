@@ -1,4 +1,3 @@
-
 [source, go-ethereum](https://github.com/ethereum/go-ethereum/blob/4e474c74dc2ac1d26b339c32064d0bac98775e77/consensus/ethash/consensus.go#L45)
 
 ```go
@@ -11,7 +10,7 @@ var (
 	allowedFutureBlockTime    = 15 * time.Second  // Max time from current time allowed for blocks, before they're considered future blocksMartin Holst Swende, 3 years ago
 ```
 
-### latest 
+### latest
 
 ```go
 // Ethash proof-of-work protocol constants.

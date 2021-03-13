@@ -12,12 +12,17 @@ summary: deterministic time tables and accounting
 ### Background
 
 #### time2posix
-IEEE Std 1003.1-1988 (``POSIX.1``) legislates that a time_t value of 536457599 shall correspond to "Wed Dec 31 23:59:59 GMT 1986." 
-This effectively implies that POSIX time_t's cannot include leap seconds and, therefore, that the system time must be adjusted as each leap occurs.
+
+IEEE Std 1003.1-1988 (`POSIX.1`) legislates that a time_t value of
+536457599 shall correspond to "Wed Dec 31 23:59:59 GMT 1986." This
+effectively implies that POSIX time_t's cannot include leap seconds and,
+therefore, that the system time must be adjusted as each leap occurs.
 
 #### strftime()
-The C and POSIX standards define for the strftime() function and the date utility a notation for defining date and time representations.
-Here are some examples, of how they can be used to produce ISO 8601 output:
+
+The C and POSIX standards define for the strftime() function and the
+date utility a notation for defining date and time representations. Here
+are some examples, of how they can be used to produce ISO 8601 output:
 
 ```bash
 format string 	output
@@ -27,18 +32,19 @@ format string 	output
 %H:%M:%S      	23:59:59
 ```
 
-
 #### TimeZones
 
 ```bash
-date -u +"%Y-%m-%d %H-%M-%SZ" 
+date -u +"%Y-%m-%d %H-%M-%SZ"
 date -u +"%Y-%m-%dT%H:%MZ"
 ```
-Z and +00:00 are the same (mostly). For purposes of translating time, they both mean UTC. 
-However England is +00:00 in winter and +01:00 in summer (BST).
-Z is UTC, while +00:00 is GMT.
 
-GNU `date` `date -I` is the same as ` date +%F`, and `-Iseconds` and `Iminutes` also include time with UTC offset.
+Z and +00:00 are the same (mostly). For purposes of translating time,
+they both mean UTC. However England is +00:00 in winter and +01:00 in
+summer (BST). Z is UTC, while +00:00 is GMT.
+
+GNU `date` `date -I` is the same as ` date +%F`, and `-Iseconds` and
+`Iminutes` also include time with UTC offset.
 
 ```bash
 date +%F # -I or +%Y-%m-%d
@@ -46,7 +52,6 @@ date +%FT%T%z # -Iseconds or +%Y-%m-%dT%H:%M:%S%z
 date +%FT%H:%M # -Iminutes or +%Y-%m-%dT%H:%M%z
 date -u +%FT%TZ
 ```
- 
 
 #### Valid ISO 8601 date or time formats
 
@@ -61,16 +66,17 @@ date -u +%FT%TZ
 1559 (%H%M)
 15 (%H)
 15:59:24+03 (UTC offset doesn't have to include minutes)
-````
+```
+
 ```bash
 $ date -u -Iseconds
 $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 ```
 
-#### Daylight Savings Changes 
+#### Daylight Savings Changes
 
-| **From**                   | **To**                  | **On**                     | **At**                      | **Action**  | ****                       |
-|----------------------------|-------------------------|----------------------------|-----------------------------|-------------|----------------------------|
+| **From**                   | **To**                  | **On**                     | **At**                      | **Action**  | \*\*\*\*                   |
+| -------------------------- | ----------------------- | -------------------------- | --------------------------- | ----------- | -------------------------- |
 | 1918                       | 1919                    | last Sunday                | in March                    | 02:00 local | go to daylight saving time |
 | in October                 | return to standard time |                            |                             |             |                            |
 | 1942 only                  | February 9th            | go to “war time”           |                             |             |                            |
@@ -89,7 +95,7 @@ $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 ## CalSystems
 
 | **cal_system** | **AverageYear(Days)**   | **ErrorPerYear(Days)** | **ErrorRatio** | **CylcePeriod** | **1-DayShift** | **100-yearError(Days)** |
-|----------------|-------------------------|------------------------|----------------|-----------------|----------------|-------------------------|
+| -------------- | ----------------------- | ---------------------- | -------------- | --------------- | -------------- | ----------------------- |
 | 365            | 365                     | 0\.2422                | 6\.63 xx10\-4  | 1,508           | 4\.129         | 24\.22                  |
 | Julian         | 365\.25                 | \-0\.0078              | 2\.14 xx10\-5  | 46,826          | 128\.2         | 0\.78                   |
 | Gregorian      | 365\.2425               | \-0\.0003              | 8\.2 xx10\-7   | 1,200,000       | 3,333\.30      | 0\.03                   |
@@ -98,11 +104,10 @@ $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 | Jalaali        | 365\.242424             | \-0\.000224            | 6\.1 xx10\-7   | 1,600,000       | 4,460          | 0\.02                   |
 | 31//128        | 365\.24218750 \.0000125 | 0 \.0000125            | 3\.4 xx10\-8   | 29,000,000      | 80,000         | 0\.001                  |
 
-
 ## Seconds
 
 | **Layman time**               | **Seconds** |
-|-------------------------------|-------------|
+| ----------------------------- | ----------- |
 | 1 minute                      | 60          |
 | 5 minutes                     | 300         |
 | 10 minutes                    | 600         |
@@ -132,7 +137,7 @@ $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 ## UNIX
 
 | **Regular date** | **Unix timestampGMT/UTC** |
-|------------------|---------------------------|
+| ---------------- | ------------------------- |
 | 1930, January 1  | \-1262304000              |
 | 1931, January 1  | \-1230768000              |
 | 1932, January 1  | \-1199232000              |
@@ -243,8 +248,6 @@ $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 | 2037, January 1  | 2114380800                |
 | 2038, January 1  | 2145916800                |
 
-
-
-### References 
+### References
 
 [https://pumas.nasa.gov/files/04_21_97_1.pdf](https://pumas.nasa.gov/files/04_21_97_1.pdf)

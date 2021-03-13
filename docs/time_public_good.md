@@ -8,12 +8,11 @@ tags: Time, Ethereum2.0
 
 Time is a very important tool to coordinate people's activity, or to
 build distributed systems. In fact, clock-driven algorithm can
-significantly simplify fault-tolerant distributed systems (e.g. [L.
-Lamport, Using Time Instead of
-Timeout](https://lamport.azurewebsites.net/pubs/using-time.pdf)).
+significantly simplify fault-tolerant distributed systems (e.g.
+[L. Lamport, Using Time Instead of Timeout](https://lamport.azurewebsites.net/pubs/using-time.pdf)).
 Indeed, several blockchains explicitly rely on Time to coordinate
-participants (e.g. [V.Buterin, Network Adjusted
-Timestamps](https://ethresear.ch/t/network-adjusted-timestamps/4187)).
+participants (e.g.
+[V.Buterin, Network Adjusted Timestamps](https://ethresear.ch/t/network-adjusted-timestamps/4187)).
 
 The downside is that clocks can fail too. For example, on-board clocks
 of most computers are not very stable, losing or gaining up to 100 ppm
@@ -36,22 +35,22 @@ be an interesting opportunity for an attackers, since it can induces
 multiple correlated or coordinated faults.
 
 The goal of the post is to propose a model, which can be use to analyze
-security properties of protocols relying on a public Time Service.
-From a more generic perspective, the model can be extended to protocols
+security properties of protocols relying on a public Time Service. From
+a more generic perspective, the model can be extended to protocols
 accessing a generic (Public) Service, which can also become an implicit
 centralized dependency.
 
 ## Time Providers
 
 There can be several ways to synchronize clocks with UTC:
+
 - an atomic clock, which is synchronized to UTC initially only
 - GNSS receiver
 - Radio Wave clock
 - Power Grid clock
 - NTP serivce
 
-[Relatively
-cheap](https://www.microsemi.com/product-directory/clocks-frequency-references/3824-chip-scale-atomic-clock-csac)
+[Relatively cheap](https://www.microsemi.com/product-directory/clocks-frequency-references/3824-chip-scale-atomic-clock-csac)
 atomic clocks are available, though their cost is still prohibitive for
 most users. However, the option is ideal, in some sense, since one can
 reasonably assume an adversary cannot control such a clock, while it's
@@ -76,11 +75,10 @@ much wider range of possible attacks.
 
 Time is not the only Public Good, so the model can be adapted to other
 settings too. For example, nodes can use a set of root nodes to
-bootstrap their operation. Or they can use a common DHT service.
-Another example is that nodes can be hosted via the same hosting
-provider, so it exposes them to the similar correlated faults.
-The whole Internet infrastructure can be abstracted as a Service
-Provider too.
+bootstrap their operation. Or they can use a common DHT service. Another
+example is that nodes can be hosted via the same hosting provider, so it
+exposes them to the similar correlated faults. The whole Internet
+infrastructure can be abstracted as a Service Provider too.
 
 The general idea is to model correlated faults that have some specific
 structure. Time Service is used as a motivating example.
@@ -113,9 +111,9 @@ We can model a Time Provider as a special kind of distributed process
 (node), which does not participate directly in the main protocol (e.g.
 Byzantine consensus). However, it is accessed as a server - to
 distinguish it from a client, which is another special kind of a
-distributed process, used in some models.
-In the Time context, we can also call the Time Providers as reference
-clocks. In a general case, we can call them (Public) Service Providers.
+distributed process, used in some models. In the Time context, we can
+also call the Time Providers as reference clocks. In a general case, we
+can call them (Public) Service Providers.
 
 The regular distributed processes (nodes) access Service Providers via
 special kind of links.
@@ -128,13 +126,13 @@ kinds of parties (processes or links).
 
 For example, in a simple GPS model, the GPS service can be described as
 a single instance of Service Provider, which cannot fail, however, links
-connecting regular nodes to it can fail by omission.
-A more complex model would be to have several GPS Service instances,
-each connected to multiple nodes, so that GPS services can fail by
-crashing, however, the failures are independent or a small upper bound
-can be specified (an adversary can choose no more than $t$ GPS services
-to fail). This allows to introduce correlated faults (attached multiple
-processes will suffer from the fault).
+connecting regular nodes to it can fail by omission. A more complex
+model would be to have several GPS Service instances, each connected to
+multiple nodes, so that GPS services can fail by crashing, however, the
+failures are independent or a small upper bound can be specified (an
+adversary can choose no more than $t$ GPS services to fail). This allows
+to introduce correlated faults (attached multiple processes will suffer
+from the fault).
 
 Another model can be to mix several Time Providers, e.g. GPS and Radio
 Clocks (or GPS+GLONASS+Galileo+BeiDou), so that Time Providers can fail,
@@ -151,9 +149,8 @@ Ethereum node distribution by [OS](https://www.ethernodes.org/os)),
 which is configured to use NTP Pool by default, there is a risk of NTP
 pool Sybil-like attack. We can model the possibility of the attack by
 specifying high percentage of NTP time servers that can be controlled by
-an adversary.
-The more powerful adversary is justified, as there exist NTP attacks
-(e.g. [one](https://eprint.iacr.org/2015/1020.pdf),
+an adversary. The more powerful adversary is justified, as there exist
+NTP attacks (e.g. [one](https://eprint.iacr.org/2015/1020.pdf),
 [two](https://eprint.iacr.org/2016/1006.pdf)) or NTP pool attacks (e.g.
 [link](https://github.com/ethereum/eth2.0-specs/issues/1592))
 
@@ -167,15 +164,14 @@ It's known that popular "honest majority"/"dishonest minority" models
 are not realistic (e.g.
 [link](https://notes.ethereum.org/@vbuterin/rkhCgQteN?type=view#Security-models)),
 since they ignore economical (dis)incentives, which can be significant,
-in certain cases. Node administrators can be "lazy" too.
-An alternative is to model validators as rational actors.
+in certain cases. Node administrators can be "lazy" too. An alternative
+is to model validators as rational actors.
 
 In the context of Time Providers, setting up a reliable time source can
 require both money and skills. As pointed out, many nodes are expected
 to be hosted, which effectively means NTP service will be used as a Time
-Provider.
-And the easiest and cheapest option is to use default NTP configuration,
-which means using NTP pool in most Linux distros
+Provider. And the easiest and cheapest option is to use default NTP
+configuration, which means using NTP pool in most Linux distros
 ([link](https://www.pool.ntp.org/en/)).
 
 Thus, hosted node deployment exposes a validator to a risk of an NTP
@@ -186,8 +182,8 @@ assumption. A bounded rational model may be required.
 
 The main question that such a model should answer is how security
 properties of a BFT protocol are affected, if it relies on public Time
-Providers (or Public Services).
-In general, if a protocol relies on a centralized or a relatively
-centralized service, then an attack could be possible on the latter,
-leading to compromising of security properties of the former protocol.
-We will discuss this in more details in the follow-up posts.
+Providers (or Public Services). In general, if a protocol relies on a
+centralized or a relatively centralized service, then an attack could be
+possible on the latter, leading to compromising of security properties
+of the former protocol. We will discuss this in more details in the
+follow-up posts.
