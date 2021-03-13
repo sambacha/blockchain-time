@@ -20,7 +20,7 @@
     "ntp"
   ],
   "author": "sam bacha <sam@freighttrust.com>",
-  "license": "Apache-2.0",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/sambacha/blockchain-time/issues"
   },
