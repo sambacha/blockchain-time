@@ -2,7 +2,7 @@
   "name": "blockchain-time",
   "version": "1.0.0",
   "description": "survey on time systems and blockchain time systems",
-  "main": "index.js",
+  "files": ["src/**/*"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
