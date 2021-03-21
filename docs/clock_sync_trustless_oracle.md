@@ -1,3 +1,8 @@
+---
+title: Clock Sync as a Decentralized Trustless Oracle
+author: Alex Vlasov
+---
+<!-- START OF PAPER -->
 # Clock Sync as a Decentralized Trustless Oracle
 
 The Clock Sync
@@ -255,3 +260,5 @@ standard (like
 be trusted - it's hard to avoid. Another problem is free-riding, in the
 case of Time DTO, it is a proper reference clock setup, which can be
 costly or inconvinient (e.g. in a permissionless setting).
+
+<!-- END OF PAPER -->
