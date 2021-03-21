@@ -1,10 +1,10 @@
 {
   "name": "blockchain-time",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "survey on time systems and blockchain time systems",
-  "files": ["src/**/*"],
+  "files": ["src/**/*", "docs/**/*"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx prettier --config .prettierrc.json --write '**/*.md' && exit 0"
   },
   "repository": {
     "type": "git",
