@@ -1,4 +1,6 @@
 ---
+title: time as a public service in a byzantine context
+source: https://hackmd.io/TMHm8ehOQHm8GfQyXCxDQA
 tags: Time, Ethereum2.0
 ---
 
