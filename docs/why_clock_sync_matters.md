@@ -1,5 +1,7 @@
 ---
+title:  Why clock sync matters in Ethereum 2.0
 tags: Time, Ethereum2.0
+author: Alex Vlasov 
 ---
 
 # Why clock sync matters in Ethereum 2.0
