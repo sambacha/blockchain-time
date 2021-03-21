@@ -2,6 +2,7 @@
 title: Clock synchronization as an estimation or a prediction problem
 source: https://hackmd.io/u-xf-Bt2SJ-OKAS9ATxyEA
 tags: Time, Ethereum2.0
+author: Alex Vlasov / @ericsson49
 ---
 
 # Clock synchronization as an estimation or a prediction problem
