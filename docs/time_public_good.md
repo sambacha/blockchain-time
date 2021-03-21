@@ -2,6 +2,7 @@
 title: time as a public service in a byzantine context
 source: https://hackmd.io/TMHm8ehOQHm8GfQyXCxDQA
 tags: Time, Ethereum2.0
+author: Alex Vlasov / ericsson49
 ---
 
 # Time as a Public Service in Byzantine context
