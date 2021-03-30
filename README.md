@@ -32,6 +32,12 @@ format string 	output
 %H:%M:%S      	23:59:59
 ```
 
+[JSON Schema `date-time`](https://json-schema.org/latest/json-schema-validation.html#RFC3339)
+```bash
+date --rfc-3339=seconds | sed 's/ /T/'
+> 2021-03-29T19:12:08-07:00
+```
+
 #### TimeZones
 
 ```bash
