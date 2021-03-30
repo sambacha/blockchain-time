@@ -337,4 +337,5 @@ $ date -u '+%Y-%m-%dT%k:%M:%S%z'
 ### References
 
 [https://pumas.nasa.gov/files/04_21_97_1.pdf](https://pumas.nasa.gov/files/04_21_97_1.pdf)
-  [Timestamps, Time-Zones, Time-Ranges, and Date-Formats#Timestamp_conventions](https://help.sumologic.com/03Send-Data/Sources/04Reference-Information-for-Sources/Timestamps%2C-Time-Zones%2C-Time-Ranges%2C-and-Date-Formats#Timestamp_conventions)
+<br>
+[Timestamps, Time-Zones, Time-Ranges, and Date-Formats#Timestamp_conventions](https://help.sumologic.com/03Send-Data/Sources/04Reference-Information-for-Sources/Timestamps%2C-Time-Zones%2C-Time-Ranges%2C-and-Date-Formats#Timestamp_conventions)
