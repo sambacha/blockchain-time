@@ -8,6 +8,23 @@ summary: deterministic time tables and accounting
 ### Blockchain Time: On the subject of Time and its Implementations on-chain and off-chain
 
 > Resources for utilizing time on-chain
+  * [Blockchain Time: On the subject of Time and its Implementations on-chain and off-chain](#blockchain-time--on-the-subject-of-time-and-its-implementations-on-chain-and-off-chain)
+  * [Background](#background)
+    + [time2posix](#time2posix)
+    + [strftime()](#strftime--)
+    + [TimeZones](#timezones)
+    + [Valid ISO 8601 date or time formats](#valid-iso-8601-date-or-time-formats)
+    + [Daylight Savings Changes](#daylight-savings-changes)
+- [CalSystems](#calsystems)
+- [Seconds](#seconds)
+- [UNIX](#unix)
+- [Time Stamp Formats](#time-stamp-formats)
+- [Time Stamp Conventions](#time-stamp-conventions)
+- [Julian-Gregorian Adoption Dates](#julian-gregorian-adoption-dates)
+  * [References](#references)
+
+
+
 
 ### Background
 
