@@ -23,8 +23,9 @@ summary: deterministic time tables and accounting
 - [Julian-Gregorian Adoption Dates](#julian-gregorian-adoption-dates)
   * [References](#references)
 
+### Equation 
 
-
+<img src="https://render.githubusercontent.com/render/math?math=UnixTime%3D(JD%5Bmo%2C%20day%20%2Cyr%5D-2440588)*86400">
 
 ### Background
 
