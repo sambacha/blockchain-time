@@ -1,0 +1,31 @@
+---
+# 31536000
+
+seconds: (365.2425 * 24 * 60 * 60) = 31556952
+
+time: new Date(31622400 * 1000);
+
+secPerCommonYear: 31536000,
+secondsPerCommonYear: 31536000,
+secPerLeapYear: 31622400,
+secondsPerLeapYear: 31622400,
+
+# Unix / epoch start date & time components
+epochStartYear: 1970,
+epochStartMonth: 1,
+epochStartDate: 1,
+epochStartHour: 0,
+epochStartMinute: 0,
+epochStartSecond: 0,
+epochStartDateStr: '1970-01-01',
+epochStartTimeStr: '00:00:00.000Z',
+epochStartDateTimeStr: '1970-01-01T00:00:00.000Z',
+unixStartYear: 1970,
+unixStartMonth: 1,
+unixStartDate: 1,
+unixStartHour: 0,
+unixStartMinute: 0,
+unixStartSecond: 0,
+unixStartDateStr: '1970-01-01',
+unixStartTimeStr: '00:00:00.000Z',
+unixStartDateTimeStr: '1970-01-01T00:00:00.000Z',
