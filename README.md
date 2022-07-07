@@ -23,11 +23,62 @@ summary: deterministic time tables and accounting
 - [Julian-Gregorian Adoption Dates](#julian-gregorian-adoption-dates)
   * [References](#references)
 
+
+## Block Timestamp Manipulation
+
+> [source: sigmaprime blog ](https://blog.sigmaprime.io/solidity-security.html#keyless-eth:~:text=such%20a%20transaction.-,12.%20Block%20Timestamp%20Manipulation,but%20it%20is%20something%20to%20be%20aware%20of%20when%20developing%20contracts.,-Real%2DWorld%20Example)
+
+Block timestamps have historically been used for a variety of applications, such as entropy for random numbers (see the Entropy Illusion section for further details), locking funds for periods of time and various state-changing conditional statements that are time-dependent. Miner's have the ability to adjust timestamps slightly which can prove to be quite dangerous if block timestamps are used incorrectly in smart contracts.
+
+Some useful references for this are: The Solidity Docs, this Stack Exchange Question.
+
+### The Vulnerability
+`block.timestamp` or its alias `now` (depreciated) can be manipulated by miners if they have some incentive to do so. Let's construct a simple game, which would be vulnerable to miner exploitation,
+
+
+```solidity
+// roulette.sol:
+contract Roulette {
+    uint public pastBlockTime; // Forces one bet per block
+
+    constructor() public payable {} // initially fund contract
+
+    // fallback function used to make a bet
+    function () public payable {
+        require(msg.value == 10 ether); // must send 10 ether to play
+        require(now != pastBlockTime); // only 1 transaction per block
+        pastBlockTime = now;
+        if(now % 15 == 0) { // winner
+            msg.sender.transfer(this.balance);
+        }
+    }
+}
+```
+
+This contract behaves like a simple lottery. One transaction per block can bet 10 ether for a chance to win the balance of the contract. The assumption here is that, block.timestamp is uniformly distributed about the last two digits. If that were the case, there would be a 1/15 chance of winning this lottery.
+
+However, as we know, miners can adjust the timestamp, should they need to. In this particular case, if enough ether pooled in the contract, a miner who solves a block is incentivised to choose a timestamp such that block.timestamp or now modulo 15 is 0. In doing so they may win the ether locked in this contract along with the block reward. As there is only one person allowed to bet per block, this is also vulnerable to front-running attacks.
+
+> **Note** 
+> block timestamps are monotonically increasing and so miners cannot choose arbitrary block timestamps (true for Ethereum1)
+
+In practice, block timestamps are monotonically increasing and so miners cannot choose arbitrary block timestamps (they must be larger than their predecessors). They are also limited to setting blocktimes not too far in the future as these blocks will likely be rejected by the network (nodes will not validate blocks whose timestamps are in the future).
+
+### Preventative Techniques
+
+Block timestamps should not be used for entropy or generating random numbers - i.e. they should not be the deciding factor (either directly or through some derivation) for winning a game or changing an important state (if assumed to be random).
+
+Time-sensitive logic is sometimes required; i.e. unlocking contracts (timelocking), completing an ICO after a few weeks or enforcing expiry dates. It is sometimes recommend to use block.number (see the Solidity docs) and an average block time to estimate times; .i.e. 1 week with a 10 second block time, equates to approximately, 60480 blocks. Thus, specifying a block number at which to change a contract state can be more secure as miners are unable to manipulate the block number as easily. The BAT ICO contract employed this strategy.
+
+This can be unnecessary if contracts aren't particularly concerned with miner manipulations of the block timestamp, but it is something to be aware of when developing contracts.
+
+
+
 ### Equation 
 
 <img src="https://render.githubusercontent.com/render/math?math=UnixTime%3D(JD%5Bmo%2C%20day%20%2Cyr%5D-2440588)*86400">
 
-### Background
+### UNIX Background
 
 #### time2posix
 
