@@ -9,9 +9,9 @@ summary: deterministic time tables and accounting
 ## Ethereum Genesis 
 
 >**Note**    
-> block:0 Jul-30-2015 03:26:13 PM +UTC is not the 'true' timestamp for the genesis block. 
-> block1: GMT: Thursday, July 30, 2015 3:26:28 PM
-> Thursday, July 30, 2015 8:26:28 AM GMT-07:00 DST
+> block:0 Jul-30-2015 03:26:13 PM +UTC is not the 'true' timestamp for the genesis block.     
+> block1: GMT: Thursday, July 30, 2015 3:26:28 PM.     
+> Thursday, July 30, 2015 8:26:28 AM GMT-07:00 DST.   
 
 
 [see https://github.com/ethereum/go-ethereum/issues/17042#issuecomment-559414137](https://github.com/ethereum/go-ethereum/issues/17042#issuecomment-559414137)
