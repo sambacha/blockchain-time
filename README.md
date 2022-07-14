@@ -5,6 +5,21 @@ version: draft
 summary: deterministic time tables and accounting
 ---
 
+
+## Ethereum Genesis 
+
+>**Note**    
+> Jul-30-2015 03:26:13 PM +UTC is not the 'true' timestamp for the genesis block. 
+
+[see https://github.com/ethereum/go-ethereum/issues/17042#issuecomment-559414137](https://github.com/ethereum/go-ethereum/issues/17042#issuecomment-559414137)
+
+So, etherscan does show the genesis: etherscan.io/block/0 -- but they must have put some hack into place to make it show up as (Jul-30-2015 03:26:13 PM +UTC) -- because AFIK the actual timestamp on the genesis is all zeroes, which is 1970. Unless I'm mistaken, there's no error in geth here, possibly etherscan.
+
+The same holds when querying a node running Parity: timestamp for block 0 is 0. On the other hand, etherscan.io shows Jul-30-2015 03:26:13 PM +UTC as timestamp for the genesis block. It would be nice to have a consistent view, or at least an explanation like "0 is correct, etherscan is just extrapolating".
+
+[source, frontiner genesis: https://raw.githubusercontent.com/ethereum/ethereumj/develop/ethereumj-core/src/main/resources/genesis/frontier.json](https://raw.githubusercontent.com/ethereum/ethereumj/develop/ethereumj-core/src/main/resources/genesis/frontier.json)
+
+
 ### Blockchain Time: On the subject of Time and its Implementations on-chain and off-chain
 
 > Resources for utilizing time on-chain
